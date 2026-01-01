@@ -23,21 +23,93 @@ class ArticleResource extends Resource
     {
         return $form
             ->schema([
-                //
-            ]);
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->required()
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
+                                    ->maxLength(255),
+
+                                Forms\Components\TextInput::make('slug')
+                                    ->required()
+                                    ->unique(Article::class, 'slug', ignoreRecord: true)
+                                    ->maxLength(255),
+
+                                Forms\Components\Textarea::make('excerpt')
+                                    ->rows(2)
+                                    ->columnSpanFull(),
+
+                                Forms\Components\RichEditor::make('content')
+                                    ->required()
+                                    ->columnSpanFull(),
+                            ])->columns(2),
+
+                        Forms\Components\Section::make('SEO')
+                            ->schema([
+                                Forms\Components\TextInput::make('meta_title')
+                                    ->maxLength(255),
+                                Forms\Components\Textarea::make('meta_description')
+                                    ->rows(2),
+                            ]),
+                    ])->columnSpan(['lg' => 2]),
+
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make('Status')
+                            ->schema([
+                                Forms\Components\TextInput::make('category')
+                                    ->placeholder('e.g. News, Blog')
+                                    ->maxLength(50),
+
+                                Forms\Components\Toggle::make('is_published')
+                                    ->default(false),
+
+                                Forms\Components\DateTimePicker::make('published_at'),
+
+                                Forms\Components\FileUpload::make('featured_image')
+                                    ->image()
+                                    ->directory('articles'),
+                            ]),
+                    ])->columnSpan(['lg' => 1]),
+            ])->columns(3);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\ImageColumn::make('featured_image'),
+
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(50),
+
+                Tables\Columns\TextColumn::make('category')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\IconColumn::make('is_published')
+                    ->boolean()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('published_at')
+                    ->dateTime()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('view_count')
+                    ->numeric()
+                    ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('is_published'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

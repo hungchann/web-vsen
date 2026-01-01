@@ -23,7 +23,41 @@ class ContactResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('phone')
+                            ->tel()
+                            ->maxLength(20),
+
+                        Forms\Components\TextInput::make('company')
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('subject')
+                            ->columnSpanFull()
+                            ->maxLength(255),
+
+                        Forms\Components\Textarea::make('message')
+                            ->required()
+                            ->columnSpanFull(),
+
+                        Forms\Components\Select::make('status')
+                            ->options([
+                                'new' => 'New',
+                                'read' => 'Read',
+                                'replied' => 'Replied',
+                            ])
+                            ->default('new')
+                            ->required(),
+                    ])->columns(2),
             ]);
     }
 
@@ -31,13 +65,40 @@ class ContactResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('subject')
+                    ->limit(30)
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->colors([
+                        'danger' => 'new',
+                        'warning' => 'read',
+                        'success' => 'replied',
+                    ]),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('status')
+                    ->options([
+                        'new' => 'New',
+                        'read' => 'Read',
+                        'replied' => 'Replied',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
