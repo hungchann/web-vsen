@@ -35,4 +35,26 @@ class PageController extends Controller
     {
         return Inertia::render('Solutions/Index');
     }
+
+    public function services()
+    {
+        return Inertia::render('Services/Index');
+    }
+
+    public function education()
+    {
+        return Inertia::render('Education/Index');
+    }
+
+    public function contact()
+    {
+        return Inertia::render('Contact/Index');
+    }
+
+    public function serviceShow($slug)
+    {
+        return Inertia::render('Services/Show', [
+            'slug' => $slug
+        ]);
+    }
 }

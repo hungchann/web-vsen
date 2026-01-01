@@ -66,3 +66,30 @@ export const SOLUTIONS: Solution[] = [
         image: 'https://picsum.photos/seed/neuro/600/800'
     }
 ];
+
+export const SERVICES = [
+    {
+        slug: 'equipment-maintenance',
+        title: 'Equipment Maintenance',
+        description: 'Comprehensive service plans to ensure your medical equipment operates at peak performance.',
+        fullDescription: 'Our equipment maintenance services are designed to maximize uptime and extend the life of your assets. We offer a range of service agreements, from preventive maintenance to full coverage, tailored to your specific needs and budget.'
+    },
+    {
+        slug: 'technical-support',
+        title: 'Technical Support',
+        description: '24/7 technical assistance for all our products and solutions.',
+        fullDescription: 'Get access to our global network of technical experts around the clock. Whether you need remote troubleshooting or on-site assistance, our team is ready to help you resolve issues quickly and minimize disruption to your clinical operations.'
+    },
+    {
+        slug: 'installation-integration',
+        title: 'Installation & Integration',
+        description: 'Expert installation and seamless integration of new equipment into your facility.',
+        fullDescription: 'Our project management and installation teams ensure that your new equipment is installed correctly and integrated seamlessly with your existing IT infrastructure and clinical workflows. We handle everything from site planning to final testing.'
+    },
+    {
+        slug: 'asset-management',
+        title: 'Asset Management',
+        description: 'Digital tools to track and manage your medical equipment lifecycle.',
+        fullDescription: 'Gain visibility into your asset inventory, utilization, and maintenance history with our asset management solutions. We help you make data-driven decisions to optimize your fleet, reduce costs, and improve operational efficiency.'
+    }
+];

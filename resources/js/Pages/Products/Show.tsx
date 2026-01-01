@@ -3,19 +3,21 @@ import { Link } from '@inertiajs/react';
 import { Product } from '@/types';
 import { useState } from 'react';
 import QuoteModal from '@/Components/QuoteModal';
+import { useTranslate } from '@/helpers';
 
 interface Props {
     product: Product;
 }
 
 export default function Show({ product }: Props) {
+  const { __ } = useTranslate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (!product) return (
-    <MainLayout title="Not Found">
+    <MainLayout title={__('Not Found')}>
         <div className="py-20 text-center">
-        <h2 className="text-2xl font-bold">Product not found.</h2>
-        <Link href="/products" className="text-ge-blue underline mt-4 inline-block">Back to catalog</Link>
+        <h2 className="text-2xl font-bold">{__('Product not found.')}</h2>
+        <Link href="/products" className="text-ge-blue underline mt-4 inline-block">{__('Back to catalog')}</Link>
         </div>
     </MainLayout>
   );
@@ -33,9 +35,9 @@ export default function Show({ product }: Props) {
         {/* Breadcrumb */}
         <div className="bg-gray-50 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 py-4 flex text-xs font-bold uppercase tracking-widest text-gray-400 gap-2">
-            <Link href="/" className="hover:text-ge-blue">Home</Link>
+            <Link href="/" className="hover:text-ge-blue">{__('Home')}</Link>
             <span>/</span>
-            <Link href="/products" className="hover:text-ge-blue">Products</Link>
+            <Link href="/products" className="hover:text-ge-blue">{__('Products')}</Link>
             <span>/</span>
             <span className="text-ge-blue">{product.name}</span>
           </div>
@@ -67,7 +69,7 @@ export default function Show({ product }: Props) {
 
               <div className="space-y-8 mb-10">
                 <div>
-                  <h3 className="text-xs uppercase font-bold text-gray-400 tracking-widest mb-4">Key Features</h3>
+                  <h3 className="text-xs uppercase font-bold text-gray-400 tracking-widest mb-4">{__('Key Features')}</h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {product.features.map((feat, i) => (
                       <li key={i} className="flex items-start gap-3">
@@ -88,18 +90,18 @@ export default function Show({ product }: Props) {
                   onClick={() => setIsModalOpen(true)}
                   className="flex-1 bg-ge-blue text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-sm hover:bg-blue-800 transition-colors"
                 >
-                  Request Information
+                  {__('Request Information')}
                 </button>
                 <button className="flex-1 border-2 border-ge-blue text-ge-blue px-8 py-4 rounded font-bold uppercase tracking-widest text-sm hover:bg-blue-50 transition-colors">
-                  Download Brochure
+                  {__('Download Brochure')}
                 </button>
               </div>
 
               <div className="mt-12 p-6 bg-blue-50 rounded-xl border border-blue-100">
-                <h4 className="font-bold text-ge-blue mb-2 uppercase text-xs tracking-widest">Expert Consultation</h4>
+                <h4 className="font-bold text-ge-blue mb-2 uppercase text-xs tracking-widest">{__('Expert Consultation')}</h4>
                 <p className="text-sm text-gray-600 mb-4">Need help choosing the right solution for your facility? Talk to our clinical specialists.</p>
                 <button className="text-ge-blue font-bold text-sm uppercase tracking-widest flex items-center hover:gap-2 transition-all">
-                  Contact an Expert
+                  {__('Contact an Expert')}
                   <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>

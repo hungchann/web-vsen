@@ -13,6 +13,11 @@ use App\Http\Controllers\ResourceController;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/solutions', [PageController::class, 'solutions'])->name('solutions.index');
+Route::get('/education', [PageController::class, 'education'])->name('education.index');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact.index');
+
+Route::get('/services', [PageController::class, 'services'])->name('services.index');
+Route::get('/services/{slug}', [PageController::class, 'serviceShow'])->name('services.show');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
@@ -33,5 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/language/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'vi'])) {
+        session()->put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('language.switch');
 
 require __DIR__.'/auth.php';

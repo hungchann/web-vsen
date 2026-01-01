@@ -48,7 +48,7 @@ class ProductController extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
-        $products = $query->paginate(12)->withQueryString()->through(function ($product) {
+        $products = $query->get()->map(function ($product) {
             return [
                 'id' => (string) $product->id,
                 'name' => $product->name,
@@ -63,7 +63,7 @@ class ProductController extends Controller
         return Inertia::render('Products/Index', [
             'products' => $products,
             'categories' => $categories,
-            'filters' => $request->only(['category']),
+            'filters' => $request->only(['category', 'q']),
         ]);
     }
 
