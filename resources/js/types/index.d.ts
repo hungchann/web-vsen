@@ -15,3 +15,20 @@ export type PageProps<
     };
     ziggy: Config & { location: string };
 };
+
+export interface Product {
+    id: string;
+    name: string;
+    category: string;
+    image: string;
+    description: string;
+    features: string[];
+}
+
+export interface Solution {
+    id: string;
+    title: string;
+    summary: string;
+    icon: string;
+    image: string;
+}

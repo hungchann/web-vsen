@@ -1,0 +1,100 @@
+import MainLayout from '@/Layouts/MainLayout';
+import { Link } from '@inertiajs/react';
+import { Product } from '@/types';
+
+interface Props {
+    product: Product;
+}
+
+export default function Show({ product }: Props) {
+  if (!product) return (
+    <MainLayout title="Not Found">
+        <div className="py-20 text-center">
+        <h2 className="text-2xl font-bold">Product not found.</h2>
+        <Link href="/products" className="text-ge-blue underline mt-4 inline-block">Back to catalog</Link>
+        </div>
+    </MainLayout>
+  );
+
+  return (
+    <MainLayout title={product.name}>
+      <div className="bg-white">
+        {/* Breadcrumb */}
+        <div className="bg-gray-50 border-b border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 py-4 flex text-xs font-bold uppercase tracking-widest text-gray-400 gap-2">
+            <Link href="/" className="hover:text-ge-blue">Home</Link>
+            <span>/</span>
+            <Link href="/products" className="hover:text-ge-blue">Products</Link>
+            <span>/</span>
+            <span className="text-ge-blue">{product.name}</span>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            {/* Image Gallery */}
+            <div className="space-y-4">
+              <div className="rounded-2xl overflow-hidden bg-gray-100 shadow-inner">
+                <img src={product.image} alt={product.name} className="w-full h-auto object-cover" />
+              </div>
+              <div className="grid grid-cols-4 gap-4">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="aspect-square bg-gray-50 rounded-lg border border-gray-200 overflow-hidden cursor-pointer hover:border-ge-blue transition-colors">
+                    <img src={product.image} className="w-full h-full object-cover opacity-60 hover:opacity-100" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Details */}
+            <div>
+              <span className="text-sm uppercase font-bold text-ge-blue tracking-widest mb-2 block">{product.category}</span>
+              <h1 className="text-4xl font-bold text-gray-900 mb-6">{product.name}</h1>
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                {product.description}
+              </p>
+
+              <div className="space-y-8 mb-10">
+                <div>
+                  <h3 className="text-xs uppercase font-bold text-gray-400 tracking-widest mb-4">Key Features</h3>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {product.features.map((feat, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <div className="mt-1 w-5 h-5 rounded-full bg-blue-50 text-ge-blue flex items-center justify-center flex-shrink-0">
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <span className="text-sm text-gray-700 font-medium">{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="flex-1 bg-ge-blue text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-sm hover:bg-blue-800 transition-colors">
+                  Request Information
+                </button>
+                <button className="flex-1 border-2 border-ge-blue text-ge-blue px-8 py-4 rounded font-bold uppercase tracking-widest text-sm hover:bg-blue-50 transition-colors">
+                  Download Brochure
+                </button>
+              </div>
+
+              <div className="mt-12 p-6 bg-blue-50 rounded-xl border border-blue-100">
+                <h4 className="font-bold text-ge-blue mb-2 uppercase text-xs tracking-widest">Expert Consultation</h4>
+                <p className="text-sm text-gray-600 mb-4">Need help choosing the right solution for your facility? Talk to our clinical specialists.</p>
+                <button className="text-ge-blue font-bold text-sm uppercase tracking-widest flex items-center hover:gap-2 transition-all">
+                  Contact an Expert
+                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </MainLayout>
+  );
+}
