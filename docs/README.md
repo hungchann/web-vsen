@@ -9,10 +9,11 @@
 
 Thư mục này chứa tài liệu cho dự án website bán thiết bị y tế, được tối giản cho team nhỏ.
 
-**Cấu trúc tài liệu (3 files):**
+**Cấu trúc tài liệu:**
 1. **01-Requirements.md** - Requirements, User Stories, Phase Comparison
 2. **02-Technical.md** - Architecture, Database, API, Infrastructure
 3. **03-Design.md** - Sitemap, Design System
+4. **diagrams/** - System Diagrams (UML, ERD, Sequence, Activity, etc.)
 
 ---
 
@@ -60,77 +61,18 @@ Bao gồm:
 ## Cách sử dụng
 
 ### Cho Product Owner
-1. Đọc **01-Requirements.md** để hiểu requirements và user stories
-2. Review Phase 1 scope
+1. Đọc **01-Requirements.md** để hiểu requirements, user stories và Phase 1/2 scope
 
 ### Cho Development Team
 1. Đọc **01-Requirements.md** để hiểu requirements
 2. Đọc **02-Technical.md** để implement
 3. Tham khảo **03-Design.md** cho UI/UX
+4. Xem **diagrams/** để hiểu system architecture và data flow
 
 ### Cho Designers
 1. Đọc **01-Requirements.md** để hiểu features
 2. Đọc **03-Design.md** để thiết kế theo design system
-
----
-
-## Technology Stack
-
-### Backend
-- Laravel 11.x
-- PostgreSQL 15+
-- Redis 7+
-- Elasticsearch 8.x hoặc Meilisearch
-- Filament 3.x (Admin)
-
-### Frontend
-- React 18+ (Laravel React Starter Kit)
-- Vite
-- Tailwind CSS
-
-### Infrastructure (Phase 1 - MVP)
-- **Single VPS** (8GB RAM, 4 vCPU, 200GB SSD) - **$45-48/month**
-  - Tất cả services chạy trên 1 server (Laravel, PostgreSQL, Redis, Elasticsearch)
-  - File Storage: VPS local disk (với automatic backup)
-  - Email: Gmail SMTP (free)
-  - **Phù hợp cho MVP** với traffic thấp (< 10,000 visits/month)
-
----
-
-## Phase 1 Scope (MVP)
-
-### ✅ Có trong Phase 1:
-- Navigation & Search (Mega Menu, Search)
-- Product Catalog (Listing, Detail, Filters)
-- Content Management (News, Resources)
-- Admin Panel (Filament)
-- Basic Lead Generation (Quote requests, Contact forms)
-- Basic Service Request (Form only)
-
-### ❌ KHÔNG có trong Phase 1:
-- Đa ngôn ngữ & Đa quốc gia
-- Events & Webinars
-- User Registration/Login
-- Customer Portal
-- Shopping Cart & Checkout
-- CRM Integration
-
-**Timeline:** 3-4 tháng
-
----
-
-## Phase 2 Scope
-
-- Đa ngôn ngữ & Đa quốc gia
-- Events & Webinars
-- User Authentication & Customer Portal
-- B2B E-commerce
-- Service Request System nâng cao
-- CRM Integration
-- Advanced Lead Gen
-- Compliance (HIPAA, GDPR, WCAG 2.1)
-
-**Timeline:** 4-6 tháng (sau Phase 1)
+3. Xem **diagrams/** để hiểu user flows và system interactions
 
 ---
 
@@ -149,12 +91,27 @@ Xem chi tiết trong **02-Technical.md**
 
 ---
 
+## Diagrams
+
+Xem **[Diagrams Overview](./diagrams/00-Diagrams-Overview.md)** để có hướng dẫn đầy đủ về các diagram:
+
+- **[Quick Overview](./diagrams/01-Quick-Overview.md)** ⭐ - **ĐỌC ĐẦU TIÊN** (5-10 phút)
+- **[Flowchart](./diagrams/02-Flowchart.md)** - Luồng xử lý của Visitor và Admin
+- **[Sequence Diagrams](./diagrams/03-Sequence-Diagrams.md)** - Tương tác giữa components
+- **[Class Diagram](./diagrams/04-Class-Diagram.md)** - Cấu trúc classes và models
+- **[State Diagram](./diagrams/05-State-Diagram.md)** - State machines cho entities
+- **[ERD](./diagrams/06-ERD.md)** - Database schema và relationships
+- **[User Journey](./diagrams/07-User-Journey.md)** - Hành trình người dùng
+
+Tất cả diagrams sử dụng **Mermaid** syntax, có thể xem trực tiếp trong VS Code (với Mermaid extension) hoặc online tại https://mermaid.live/
+
 ## Notes
 
 - Tài liệu được tối giản cho team nhỏ
 - Focus vào Phase 1 (MVP)
 - Phase 2 features sẽ được thêm sau
 - Tất cả tài liệu sử dụng Markdown format
+- Diagrams sử dụng Mermaid syntax
 
 ---
 

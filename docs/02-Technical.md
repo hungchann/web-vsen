@@ -142,6 +142,7 @@ CREATE TABLE products (
     status VARCHAR(50) DEFAULT 'new',
     brand VARCHAR(100),
     model VARCHAR(100),
+    video_url VARCHAR(500),
     meta_title VARCHAR(255),
     meta_description TEXT,
     is_featured BOOLEAN DEFAULT false,
@@ -158,6 +159,18 @@ CREATE INDEX idx_products_status ON products(status);
 CREATE INDEX idx_products_featured ON products(is_featured);
 CREATE INDEX idx_products_brand ON products(brand);
 CREATE INDEX idx_products_sku ON products(sku);
+
+#### `product_relations`
+```sql
+CREATE TABLE product_relations (
+    product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    related_product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (product_id, related_product_id)
+);
+
+CREATE INDEX idx_product_relations_product ON product_relations(product_id);
+```
 ```
 
 #### `product_images`
