@@ -14,13 +14,41 @@ class ProductController extends Controller
         $query = Product::with(['category', 'images'])
             ->where('is_active', true);
 
+        // Search
+        if ($request->has('q') && $request->q) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->q . '%')
+                  ->orWhere('description', 'like', '%' . $request->q . '%')
+                  ->orWhere('sku', 'like', '%' . $request->q . '%');
+            });
+        }
+
+        // Filter by Category
         if ($request->has('category') && $request->category !== 'All') {
             $query->whereHas('category', function ($q) use ($request) {
                 $q->where('name', $request->category);
             });
         }
 
-        $products = $query->paginate(12)->through(function ($product) {
+        // Sorting
+        if ($request->has('sort')) {
+            switch ($request->sort) {
+                case 'name_asc':
+                    $query->orderBy('name', 'asc');
+                    break;
+                case 'name_desc':
+                    $query->orderBy('name', 'desc');
+                    break;
+                case 'newest':
+                default:
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $products = $query->paginate(12)->withQueryString()->through(function ($product) {
             return [
                 'id' => (string) $product->id,
                 'name' => $product->name,

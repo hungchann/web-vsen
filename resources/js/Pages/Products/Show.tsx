@@ -1,12 +1,16 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Link } from '@inertiajs/react';
 import { Product } from '@/types';
+import { useState } from 'react';
+import QuoteModal from '@/Components/QuoteModal';
 
 interface Props {
     product: Product;
 }
 
 export default function Show({ product }: Props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   if (!product) return (
     <MainLayout title="Not Found">
         <div className="py-20 text-center">
@@ -18,6 +22,13 @@ export default function Show({ product }: Props) {
 
   return (
     <MainLayout title={product.name}>
+      <QuoteModal 
+        isOpen={isModalOpen} 
+        closeModal={() => setIsModalOpen(false)} 
+        productId={product.id}
+        productName={product.name}
+      />
+
       <div className="bg-white">
         {/* Breadcrumb */}
         <div className="bg-gray-50 border-b border-gray-200">
@@ -73,7 +84,10 @@ export default function Show({ product }: Props) {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="flex-1 bg-ge-blue text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-sm hover:bg-blue-800 transition-colors">
+                <button 
+                  onClick={() => setIsModalOpen(true)}
+                  className="flex-1 bg-ge-blue text-white px-8 py-4 rounded font-bold uppercase tracking-widest text-sm hover:bg-blue-800 transition-colors"
+                >
                   Request Information
                 </button>
                 <button className="flex-1 border-2 border-ge-blue text-ge-blue px-8 py-4 rounded font-bold uppercase tracking-widest text-sm hover:bg-blue-50 transition-colors">
