@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_specs', function (Blueprint $table) {
-            $table->id();
+        Schema::create('product_relations', function (Blueprint $table) {
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
-            $table->string('spec_key', 100);
-            $table->text('spec_value');
-            $table->string('spec_group', 50)->nullable();
-            $table->integer('sort_order')->default(0);
-            $table->timestamps();
-
-            $table->index('spec_group');
+            $table->foreignId('related_product_id')->constrained('products')->cascadeOnDelete();
+            $table->timestamp('created_at')->useCurrent();
+            
+            $table->primary(['product_id', 'related_product_id']);
         });
     }
 
@@ -29,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_specs');
+        Schema::dropIfExists('product_relations');
     }
 };

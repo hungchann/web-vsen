@@ -13,7 +13,17 @@ return new class extends Migration
     {
         Schema::create('product_documents', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+            $table->string('name');
+            $table->string('file_path');
+            $table->string('file_url', 500)->nullable();
+            $table->string('file_type', 50)->nullable();
+            $table->integer('file_size')->nullable();
+            $table->integer('download_count')->default(0);
+            $table->integer('sort_order')->default(0);
             $table->timestamps();
+
+            $table->index('file_type');
         });
     }
 
