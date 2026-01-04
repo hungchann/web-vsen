@@ -1,4 +1,5 @@
 import { Link } from '@inertiajs/react';
+import { useTranslate } from '@/helpers';
 import { Product } from '@/types';
 
 interface Props {
@@ -6,16 +7,17 @@ interface Props {
 }
 
 export default function ProductSection({ products }: Props) {
+  const { __ } = useTranslate();
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-end mb-12">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Featured Products</h2>
-            <p className="text-gray-600">Advanced diagnostic and therapeutic tools.</p>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">{__('Featured Products')}</h2>
+            <p className="text-gray-600">{__('Advanced diagnostic and therapeutic tools.')}</p>
           </div>
           <Link href="/products" className="text-ge-blue font-bold uppercase text-sm tracking-widest flex items-center hover:underline">
-            View All Products
+            {__('View All Products')}
             <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>

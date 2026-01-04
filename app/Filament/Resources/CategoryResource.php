@@ -26,12 +26,13 @@ class CategoryResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\Select::make('parent_id')
-                            ->label('Parent Category')
+                            ->label(__('Parent Category'))
                             ->relationship('parent', 'name')
                             ->searchable()
                             ->preload(),
 
                         Forms\Components\TextInput::make('name')
+                            ->label(__('Name'))
                             ->required()
                             ->live(onBlur: true)
                             ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
@@ -43,18 +44,22 @@ class CategoryResource extends Resource
                             ->maxLength(255),
 
                         Forms\Components\Textarea::make('description')
+                            ->label(__('Description'))
                             ->rows(3)
                             ->columnSpanFull(),
 
                         Forms\Components\FileUpload::make('image')
+                            ->label(__('Image'))
                             ->image()
                             ->directory('categories'),
 
                         Forms\Components\TextInput::make('sort_order')
+                            ->label(__('Sort Order'))
                             ->numeric()
                             ->default(0),
 
                         Forms\Components\Toggle::make('is_active')
+                            ->label(__('Is Active'))
                             ->default(true),
                     ])->columns(2),
             ]);
@@ -64,14 +69,15 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')->label(__('Image')),
 
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('parent.name')
-                    ->label('Parent')
+                    ->label(__('Parent'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('slug')
@@ -79,14 +85,17 @@ class CategoryResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\IconColumn::make('is_active')
+                    ->label(__('Is Active'))
                     ->boolean()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('sort_order')
+                    ->label(__('Sort Order'))
                     ->numeric()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

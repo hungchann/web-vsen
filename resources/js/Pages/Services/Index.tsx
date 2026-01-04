@@ -53,9 +53,9 @@ export default function Index() {
             {SERVICES.map((service, index) => (
               <Link key={index} href={`/services/${service.slug}`} className="p-8 border border-gray-100 rounded-2xl shadow-sm hover:shadow-lg transition-all group block">
                 <div className="mb-4 transform group-hover:scale-110 transition-transform duration-300 origin-left">{getIcon(service.slug)}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-ge-blue transition-colors">{service.title}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-ge-blue transition-colors">{__(service.title)}</h3>
                 <p className="text-gray-600 leading-relaxed mb-4">
-                  {service.description}
+                  {__(service.description)}
                 </p>
                 <span className="text-ge-blue text-sm font-bold uppercase tracking-widest flex items-center">
                     {__('Learn More')}

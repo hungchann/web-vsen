@@ -26,40 +26,48 @@ class QuoteRequestResource extends Resource
                 Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\Select::make('product_id')
+                            ->label(__('Product'))
                             ->relationship('product', 'name')
                             ->searchable()
                             ->preload(),
 
                         Forms\Components\TextInput::make('name')
+                            ->label(__('Name'))
                             ->required()
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('email')
+                            ->label(__('Email'))
                             ->email()
                             ->required()
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('phone')
+                            ->label(__('Phone'))
                             ->tel()
                             ->maxLength(20),
 
                         Forms\Components\TextInput::make('company')
+                            ->label(__('Company'))
                             ->maxLength(255),
 
                         Forms\Components\TextInput::make('quantity')
+                            ->label(__('Quantity'))
                             ->numeric()
                             ->default(1)
                             ->required(),
 
                         Forms\Components\Textarea::make('message')
+                            ->label(__('Message'))
                             ->columnSpanFull(),
 
                         Forms\Components\Select::make('status')
+                            ->label(__('Status'))
                             ->options([
-                                'new' => 'New',
-                                'processing' => 'Processing',
-                                'completed' => 'Completed',
-                                'cancelled' => 'Cancelled',
+                                'new' => __('New'),
+                                'processing' => __('Processing'),
+                                'completed' => __('Completed'),
+                                'cancelled' => __('Cancelled'),
                             ])
                             ->default('new')
                             ->required(),
@@ -72,22 +80,26 @@ class QuoteRequestResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('product.name')
-                    ->label('Product')
+                    ->label(__('Product'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__('Email'))
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('quantity')
+                    ->label(__('Quantity'))
                     ->numeric()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('status')
+                    ->label(__('Status'))
                     ->badge()
                     ->colors([
                         'danger' => 'new',
@@ -97,16 +109,18 @@ class QuoteRequestResource extends Resource
                     ]),
 
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
+                    ->label(__('Status'))
                     ->options([
-                        'new' => 'New',
-                        'processing' => 'Processing',
-                        'completed' => 'Completed',
-                        'cancelled' => 'Cancelled',
+                        'new' => __('New'),
+                        'processing' => __('Processing'),
+                        'completed' => __('Completed'),
+                        'cancelled' => __('Cancelled'),
                     ]),
             ])
             ->actions([

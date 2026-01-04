@@ -1,6 +1,8 @@
 import { Link } from '@inertiajs/react';
+import { useTranslate } from '@/helpers';
 
 export default function Footer() {
+  const { __ } = useTranslate();
   return (
     <footer className="bg-gray-900 text-white pt-16 pb-8 border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -10,7 +12,7 @@ export default function Footer() {
           <div>
             <h3 className="text-2xl font-bold italic tracking-tighter mb-6 text-white">VSEN Medical</h3>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Advancing healthcare with intelligent solutions and data-driven insights. Building a world that works for everyone.
+              {__('Advancing healthcare with intelligent solutions and data-driven insights. Building a world that works for everyone.')}
             </p>
             <div className="flex space-x-4">
                {/* Social Icons Placeholders */}
@@ -27,44 +29,44 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-bold uppercase tracking-widest mb-6 text-gray-300">Products</h4>
+            <h4 className="text-sm font-bold uppercase tracking-widest mb-6 text-gray-300">{__('Products')}</h4>
             <ul className="space-y-3 text-sm text-gray-400">
-              <li><Link href="/products" className="hover:text-white transition-colors">MRI Systems</Link></li>
-              <li><Link href="/products" className="hover:text-white transition-colors">CT Scanners</Link></li>
-              <li><Link href="/products" className="hover:text-white transition-colors">Ultrasound</Link></li>
-              <li><Link href="/products" className="hover:text-white transition-colors">X-Ray</Link></li>
-              <li><Link href="/products" className="hover:text-white transition-colors">Patient Monitoring</Link></li>
+              <li><Link href="/products" className="hover:text-white transition-colors">{__('MRI Systems')}</Link></li>
+              <li><Link href="/products" className="hover:text-white transition-colors">{__('CT Scanners')}</Link></li>
+              <li><Link href="/products" className="hover:text-white transition-colors">{__('Ultrasound')}</Link></li>
+              <li><Link href="/products" className="hover:text-white transition-colors">{__('X-Ray')}</Link></li>
+              <li><Link href="/products" className="hover:text-white transition-colors">{__('Patient Monitoring')}</Link></li>
             </ul>
           </div>
 
           <div>
-             <h4 className="text-sm font-bold uppercase tracking-widest mb-6 text-gray-300">Solutions</h4>
+             <h4 className="text-sm font-bold uppercase tracking-widest mb-6 text-gray-300">{__('Solutions')}</h4>
              <ul className="space-y-3 text-sm text-gray-400">
-               <li><Link href="/solutions" className="hover:text-white transition-colors">Cardiology</Link></li>
-               <li><Link href="/solutions" className="hover:text-white transition-colors">Oncology</Link></li>
-               <li><Link href="/solutions" className="hover:text-white transition-colors">Neurology</Link></li>
-               <li><Link href="/solutions" className="hover:text-white transition-colors">Women's Health</Link></li>
+               <li><Link href="/solutions" className="hover:text-white transition-colors">{__('Cardiology')}</Link></li>
+               <li><Link href="/solutions" className="hover:text-white transition-colors">{__('Oncology')}</Link></li>
+               <li><Link href="/solutions" className="hover:text-white transition-colors">{__('Neurology')}</Link></li>
+               <li><Link href="/solutions" className="hover:text-white transition-colors">{__("Women's Health")}</Link></li>
              </ul>
           </div>
 
           <div>
-             <h4 className="text-sm font-bold uppercase tracking-widest mb-6 text-gray-300">Support</h4>
+             <h4 className="text-sm font-bold uppercase tracking-widest mb-6 text-gray-300">{__('Support')}</h4>
              <ul className="space-y-3 text-sm text-gray-400">
-               <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
-               <li><a href="#" className="hover:text-white transition-colors">Service Request</a></li>
-               <li><a href="#" className="hover:text-white transition-colors">Technical Training</a></li>
-               <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
+               <li><a href="#" className="hover:text-white transition-colors">{__('Contact Us')}</a></li>
+               <li><a href="#" className="hover:text-white transition-colors">{__('Service Request')}</a></li>
+               <li><a href="#" className="hover:text-white transition-colors">{__('Technical Training')}</a></li>
+               <li><a href="#" className="hover:text-white transition-colors">{__('Documentation')}</a></li>
              </ul>
           </div>
 
         </div>
 
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-           <p>&copy; {new Date().getFullYear()} VSEN Medical. All rights reserved.</p>
+           <p>&copy; {new Date().getFullYear()} VSEN Medical. {__('All rights reserved.')}</p>
            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Use</a>
-              <a href="#" className="hover:text-white transition-colors">Cookie Preferences</a>
+              <a href="#" className="hover:text-white transition-colors">{__('Privacy Policy')}</a>
+              <a href="#" className="hover:text-white transition-colors">{__('Terms of Use')}</a>
+              <a href="#" className="hover:text-white transition-colors">{__('Cookie Preferences')}</a>
            </div>
         </div>
       </div>

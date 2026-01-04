@@ -16,10 +16,22 @@ class ProductController extends Controller
 
         // Search
         if ($request->has('q') && $request->q) {
-            $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->q . '%')
-                  ->orWhere('description', 'like', '%' . $request->q . '%')
-                  ->orWhere('sku', 'like', '%' . $request->q . '%');
+            $terms = explode(' ', $request->q);
+            $query->where(function ($q) use ($terms) {
+                foreach ($terms as $term) {
+                    $term = trim($term);
+                    if (!empty($term)) {
+                        $q->where(function ($subQ) use ($term) {
+                            $subQ->where('name', 'like', '%' . $term . '%')
+                                 ->orWhere('description', 'like', '%' . $term . '%')
+                                 ->orWhere('short_description', 'like', '%' . $term . '%')
+                                 ->orWhere('sku', 'like', '%' . $term . '%')
+                                 ->orWhereHas('category', function ($catQ) use ($term) {
+                                     $catQ->where('name', 'like', '%' . $term . '%');
+                                 });
+                        });
+                    }
+                }
             });
         }
 

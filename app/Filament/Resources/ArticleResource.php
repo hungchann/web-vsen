@@ -28,6 +28,7 @@ class ArticleResource extends Resource
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\TextInput::make('title')
+                                    ->label(__('Title'))
                                     ->required()
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
@@ -39,15 +40,17 @@ class ArticleResource extends Resource
                                     ->maxLength(255),
 
                                 Forms\Components\Textarea::make('excerpt')
+                                    ->label(__('Excerpt'))
                                     ->rows(2)
                                     ->columnSpanFull(),
 
                                 Forms\Components\RichEditor::make('content')
+                                    ->label(__('Content'))
                                     ->required()
                                     ->columnSpanFull(),
                             ])->columns(2),
 
-                        Forms\Components\Section::make('SEO')
+                        Forms\Components\Section::make(__('SEO'))
                             ->schema([
                                 Forms\Components\TextInput::make('meta_title')
                                     ->maxLength(255),
@@ -58,18 +61,22 @@ class ArticleResource extends Resource
 
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make('Status')
+                        Forms\Components\Section::make(__('Status'))
                             ->schema([
                                 Forms\Components\TextInput::make('category')
+                                    ->label(__('Category'))
                                     ->placeholder('e.g. News, Blog')
                                     ->maxLength(50),
 
                                 Forms\Components\Toggle::make('is_published')
+                                    ->label(__('Is Published'))
                                     ->default(false),
 
-                                Forms\Components\DateTimePicker::make('published_at'),
+                                Forms\Components\DateTimePicker::make('published_at')
+                                    ->label(__('Published At')),
 
                                 Forms\Components\FileUpload::make('featured_image')
+                                    ->label(__('Image'))
                                     ->image()
                                     ->directory('articles'),
                             ]),
@@ -81,26 +88,31 @@ class ArticleResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('featured_image'),
+                Tables\Columns\ImageColumn::make('featured_image')->label(__('Image')),
 
                 Tables\Columns\TextColumn::make('title')
+                    ->label(__('Title'))
                     ->searchable()
                     ->sortable()
                     ->limit(50),
 
                 Tables\Columns\TextColumn::make('category')
+                    ->label(__('Category'))
                     ->sortable()
                     ->searchable(),
 
                 Tables\Columns\IconColumn::make('is_published')
+                    ->label(__('Is Published'))
                     ->boolean()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('published_at')
+                    ->label(__('Published At'))
                     ->dateTime()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('view_count')
+                    ->label(__('View Count'))
                     ->numeric()
                     ->sortable(),
             ])
