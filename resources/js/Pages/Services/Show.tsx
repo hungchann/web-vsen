@@ -54,7 +54,7 @@ export default function Show({ slug }: Props) {
   }
 
   return (
-    <MainLayout title={service.title}>
+    <MainLayout title={__(service.title)}>
       <div className="bg-white">
         <div className="bg-gray-50 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 py-4 flex text-xs font-bold uppercase tracking-widest text-gray-400 gap-2">
@@ -62,7 +62,7 @@ export default function Show({ slug }: Props) {
             <span>/</span>
             <Link href="/services" className="hover:text-ge-blue">{__('Services')}</Link>
             <span>/</span>
-            <span className="text-ge-blue">{service.title}</span>
+            <span className="text-ge-blue">{__(service.title)}</span>
           </div>
         </div>
 
@@ -72,12 +72,12 @@ export default function Show({ slug }: Props) {
                 <div className="mb-8 p-6 bg-blue-50 inline-block rounded-full">
                     {getIcon(service.slug)}
                 </div>
-                <h1 className="text-4xl font-bold text-gray-900 mb-6">{service.title}</h1>
+                <h1 className="text-4xl font-bold text-gray-900 mb-6">{__(service.title)}</h1>
                 <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                    {service.description}
+                    {__(service.description)}
                 </p>
                 <div className="prose prose-lg text-gray-600">
-                    <p>{service.fullDescription}</p>
+                    <p>{__(service.fullDescription)}</p>
                     <p>{__('We are committed to providing world-class service to ensure your success.')}</p>
                 </div>
              </div>
