@@ -17,17 +17,20 @@ class ProductController extends Controller
         // Search
         if ($request->has('q') && $request->q) {
             $terms = explode(' ', $request->q);
-            $query->where(function ($q) use ($terms) {
+            // Detect driver to choose operator (ilike for pgsql, like for others)
+            $operator = \Illuminate\Support\Facades\DB::connection()->getDriverName() === 'pgsql' ? 'ilike' : 'like';
+
+            $query->where(function ($q) use ($terms, $operator) {
                 foreach ($terms as $term) {
                     $term = trim($term);
                     if (!empty($term)) {
-                        $q->where(function ($subQ) use ($term) {
-                            $subQ->where('name', 'like', '%' . $term . '%')
-                                 ->orWhere('description', 'like', '%' . $term . '%')
-                                 ->orWhere('short_description', 'like', '%' . $term . '%')
-                                 ->orWhere('sku', 'like', '%' . $term . '%')
-                                 ->orWhereHas('category', function ($catQ) use ($term) {
-                                     $catQ->where('name', 'like', '%' . $term . '%');
+                        $q->where(function ($subQ) use ($term, $operator) {
+                            $subQ->where('name', $operator, '%' . $term . '%')
+                                 ->orWhere('description', $operator, '%' . $term . '%')
+                                 ->orWhere('short_description', $operator, '%' . $term . '%')
+                                 ->orWhere('sku', $operator, '%' . $term . '%')
+                                 ->orWhereHas('category', function ($catQ) use ($term, $operator) {
+                                     $catQ->where('name', $operator, '%' . $term . '%');
                                  });
                         });
                     }
