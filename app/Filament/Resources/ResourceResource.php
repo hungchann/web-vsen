@@ -23,7 +23,66 @@ class ResourceResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\TextInput::make('title')
+                            ->label(__('Title'))
+                            ->required()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('slug')
+                            ->required()
+                            ->unique(ResourceModel::class, 'slug', ignoreRecord: true)
+                            ->maxLength(255),
+
+                        Forms\Components\Textarea::make('description')
+                            ->label(__('Description'))
+                            ->rows(3)
+                            ->columnSpanFull(),
+
+                        Forms\Components\Select::make('resource_type')
+                            ->label(__('Resource Type'))
+                            ->options([
+                                'brochure' => __('Brochure'),
+                                'manual' => __('Manual'),
+                                'driver' => __('Driver'),
+                                'software' => __('Software'),
+                                'video' => __('Video'),
+                            ])
+                            ->required(),
+
+                        Forms\Components\FileUpload::make('file_path')
+                            ->label(__('File Upload'))
+                            ->directory('resources')
+                            ->openable()
+                            ->downloadable(),
+
+                        Forms\Components\TextInput::make('file_url')
+                            ->label(__('External URL'))
+                            ->url()
+                            ->maxLength(500),
+
+                        Forms\Components\FileUpload::make('thumbnail')
+                            ->label(__('Thumbnail'))
+                            ->image()
+                            ->directory('resource-thumbnails'),
+
+                        Forms\Components\TextInput::make('specialty')
+                            ->label(__('Specialty'))
+                            ->maxLength(100),
+
+                        Forms\Components\TextInput::make('publish_year')
+                            ->label(__('Publish Year'))
+                            ->numeric()
+                            ->minValue(1900)
+                            ->maxValue(date('Y') + 1),
+
+                        Forms\Components\Toggle::make('is_public')
+                            ->label(__('Is Public'))
+                            ->default(true),
+                    ])->columns(2),
             ]);
     }
 
@@ -31,13 +90,60 @@ class ResourceResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\ImageColumn::make('thumbnail')->label(__('Thumbnail')),
+
+                Tables\Columns\TextColumn::make('title')
+                    ->label(__('Title'))
+                    ->searchable()
+                    ->sortable()
+                    ->limit(50),
+
+                Tables\Columns\TextColumn::make('resource_type')
+                    ->label(__('Resource Type'))
+                    ->badge()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('specialty')
+                    ->label(__('Specialty'))
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('publish_year')
+                    ->label(__('Publish Year'))
+                    ->sortable(),
+
+                Tables\Columns\IconColumn::make('is_public')
+                    ->label(__('Is Public'))
+                    ->boolean()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('download_count')
+                    ->label(__('Download Count'))
+                    ->numeric()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Created At'))
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('resource_type')
+                    ->label(__('Resource Type'))
+                    ->options([
+                        'brochure' => __('Brochure'),
+                        'manual' => __('Manual'),
+                        'driver' => __('Driver'),
+                        'software' => __('Software'),
+                        'video' => __('Video'),
+                    ]),
+                Tables\Filters\TernaryFilter::make('is_public')
+                    ->label(__('Is Public')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

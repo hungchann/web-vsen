@@ -1,18 +1,33 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuoteRequestController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+use App\Http\Controllers\ResourceController;
+
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/solutions', [PageController::class, 'solutions'])->name('solutions.index');
+Route::get('/education', [PageController::class, 'education'])->name('education.index');
+Route::get('/contact', [PageController::class, 'contact'])->name('contact.index');
+
+Route::get('/services', [PageController::class, 'services'])->name('services.index');
+Route::get('/services/{slug}', [PageController::class, 'serviceShow'])->name('services.show');
+
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+Route::get('/insights/news', [ArticleController::class, 'index'])->name('news.index');
+Route::get('/insights/news/{slug}', [ArticleController::class, 'show'])->name('news.show');
+
+Route::get('/resources', [ResourceController::class, 'index'])->name('resources.index');
+
+Route::post('/quote-request', [QuoteRequestController::class, 'store'])->name('quote.store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -23,5 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/language/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'vi'])) {
+        session()->put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('language.switch');
 
 require __DIR__.'/auth.php';

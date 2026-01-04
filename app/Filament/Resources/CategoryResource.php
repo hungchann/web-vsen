@@ -23,7 +23,45 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\Select::make('parent_id')
+                            ->label(__('Parent Category'))
+                            ->relationship('parent', 'name')
+                            ->searchable()
+                            ->preload(),
+
+                        Forms\Components\TextInput::make('name')
+                            ->label(__('Name'))
+                            ->required()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null)
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('slug')
+                            ->required()
+                            ->unique(Category::class, 'slug', ignoreRecord: true)
+                            ->maxLength(255),
+
+                        Forms\Components\Textarea::make('description')
+                            ->label(__('Description'))
+                            ->rows(3)
+                            ->columnSpanFull(),
+
+                        Forms\Components\FileUpload::make('image')
+                            ->label(__('Image'))
+                            ->image()
+                            ->directory('categories'),
+
+                        Forms\Components\TextInput::make('sort_order')
+                            ->label(__('Sort Order'))
+                            ->numeric()
+                            ->default(0),
+
+                        Forms\Components\Toggle::make('is_active')
+                            ->label(__('Is Active'))
+                            ->default(true),
+                    ])->columns(2),
             ]);
     }
 
@@ -31,13 +69,43 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\ImageColumn::make('image')->label(__('Image')),
+
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('parent.name')
+                    ->label(__('Parent'))
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('slug')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label(__('Is Active'))
+                    ->boolean()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('sort_order')
+                    ->label(__('Sort Order'))
+                    ->numeric()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Created At'))
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('is_active'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
