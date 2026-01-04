@@ -77,7 +77,7 @@ class ProductController extends Controller
 
         return Inertia::render('Products/Index', [
             'products' => $products,
-            'categories' => $categories,
+            'filterCategories' => $categories,
             'filters' => $request->only(['category', 'q']),
         ]);
     }

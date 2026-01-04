@@ -7,14 +7,14 @@ import { useTranslate } from '@/helpers';
 
 interface Props {
   products: Product[];
-  categories: string[];
+  filterCategories: string[];
   filters: {
     category?: string;
     q?: string;
   };
 }
 
-export default function Index({ products, categories, filters }: Props) {
+export default function Index({ products, filterCategories, filters }: Props) {
   const { __ } = useTranslate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<{id: string, name: string} | null>(null);
@@ -61,7 +61,7 @@ export default function Index({ products, categories, filters }: Props) {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="flex flex-wrap gap-4 mb-12">
-            {categories.map(cat => (
+            {filterCategories.map(cat => (
               <button
                 key={cat}
                 onClick={() => handleFilterChange(cat)}

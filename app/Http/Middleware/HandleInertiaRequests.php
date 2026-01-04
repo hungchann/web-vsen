@@ -23,7 +23,10 @@ class HandleInertiaRequests extends Middleware
             'translations' => is_file(lang_path(app()->getLocale() . '.json')) 
                 ? json_decode(file_get_contents(lang_path(app()->getLocale() . '.json')), true)
                 : [],
-            'categories' => Category::where('is_active', true)->select('name', 'slug')->get(),
+            'categories' => Category::where('is_active', true)->get()->map(fn($c) => [
+                'name' => $c->name,
+                'slug' => $c->slug
+            ]),
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

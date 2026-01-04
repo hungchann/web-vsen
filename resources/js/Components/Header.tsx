@@ -76,10 +76,10 @@ export default function Header() {
                     <div className="group relative">
                         <Link 
                             href="/products" 
-                            className="text-gray-700 group-hover:text-ge-blue px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors flex items-center"
+                            className={`${usePage().url.startsWith('/products') ? 'text-ge-blue' : 'text-gray-700'} group-hover:text-ge-blue px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors flex items-center`}
                         >
                             {__('Products')}
-                            <svg className="w-3 h-3 ml-1 text-gray-400 group-hover:text-ge-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className={`w-3 h-3 ml-1 ${usePage().url.startsWith('/products') ? 'text-ge-blue' : 'text-gray-400'} group-hover:text-ge-blue transition-colors`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                             </svg>
                         </Link>
@@ -88,13 +88,16 @@ export default function Header() {
                         <div className="absolute left-0 pt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out transform group-hover:translate-y-0 translate-y-2 z-50">
                             <div className="bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden ring-1 ring-black ring-opacity-5">
                                 <div className="py-2">
-                                    <Link href="/products" className="block px-4 py-2 text-sm text-ge-blue font-bold hover:bg-gray-50 border-b border-gray-50">
+                                    <Link 
+                                        href="/products" 
+                                        className="block px-4 py-2 text-sm text-ge-blue font-bold hover:bg-gray-50 border-b border-gray-100"
+                                    >
                                         {__('All Products')}
                                     </Link>
                                     {categories?.map((category) => (
                                         <Link 
                                             key={category.slug}
-                                            href={`/products?category=${category.name}`}
+                                            href={`/products?category=${encodeURIComponent(category.name)}`}
                                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-ge-blue transition-colors"
                                         >
                                             {category.name}
@@ -105,16 +108,28 @@ export default function Header() {
                         </div>
                     </div>
 
-                    <Link href="/services" className="text-gray-700 hover:text-ge-blue px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors">
+                    <Link 
+                        href="/services" 
+                        className={`${usePage().url.startsWith('/services') ? 'text-ge-blue' : 'text-gray-700'} hover:text-ge-blue px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors`}
+                    >
                         {__('Services')}
                     </Link>
-                    <Link href="/solutions" className="text-gray-700 hover:text-ge-blue px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors">
+                    <Link 
+                        href="/solutions" 
+                        className={`${usePage().url.startsWith('/solutions') ? 'text-ge-blue' : 'text-gray-700'} hover:text-ge-blue px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors`}
+                    >
                         {__('Solutions')}
                     </Link>
-                    <Link href="/education" className="text-gray-700 hover:text-ge-blue px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors">
+                    <Link 
+                        href="/education" 
+                        className={`${usePage().url.startsWith('/education') ? 'text-ge-blue' : 'text-gray-700'} hover:text-ge-blue px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors`}
+                    >
                         {__('Education')}
                     </Link>
-                    <Link href="/insights/news" className="text-gray-700 hover:text-ge-blue px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors">
+                    <Link 
+                        href="/insights/news" 
+                        className={`${usePage().url.startsWith('/insights') ? 'text-ge-blue' : 'text-gray-700'} hover:text-ge-blue px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors`}
+                    >
                         {__('Insights')}
                     </Link>
                 </nav>
