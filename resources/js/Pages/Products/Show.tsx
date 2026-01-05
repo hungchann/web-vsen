@@ -92,14 +92,11 @@ export default function Show({ product }: Props) {
                 >
                   {__('Request Information')}
                 </button>
-                <button className="flex-1 border-2 border-ge-blue text-ge-blue px-8 py-4 rounded font-bold uppercase tracking-widest text-sm hover:bg-blue-50 transition-colors">
-                  {__('Download Brochure')}
-                </button>
               </div>
 
               <div className="mt-12 p-6 bg-blue-50 rounded-xl border border-blue-100">
                 <h4 className="font-bold text-ge-blue mb-2 uppercase text-xs tracking-widest">{__('Expert Consultation')}</h4>
-                <p className="text-sm text-gray-600 mb-4">Need help choosing the right solution for your facility? Talk to our clinical specialists.</p>
+                <p className="text-sm text-gray-600 mb-4">{__('Need help choosing the right solution for your facility? Talk to our clinical specialists.')}</p>
                 <button className="text-ge-blue font-bold text-sm uppercase tracking-widest flex items-center hover:gap-2 transition-all">
                   {__('Contact an Expert')}
                   <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

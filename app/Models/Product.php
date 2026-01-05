@@ -58,11 +58,6 @@ class Product extends Model
         return $this->hasMany(ProductSpec::class)->orderBy('sort_order');
     }
 
-    public function documents(): HasMany
-    {
-        return $this->hasMany(ProductDocument::class)->orderBy('sort_order');
-    }
-
     public function quoteRequests(): HasMany
     {
         return $this->hasMany(QuoteRequest::class);

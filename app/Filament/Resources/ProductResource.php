@@ -184,32 +184,6 @@ class ProductResource extends Resource
                                     ->reorderableWithButtons(),
                             ]),
 
-                        Forms\Components\Tabs\Tab::make(__('Documents'))
-                            ->schema([
-                                Forms\Components\Repeater::make('documents')
-                                    ->label(__('Documents'))
-                                    ->relationship()
-                                    ->schema([
-                                        Forms\Components\TextInput::make('name')
-                                            ->label(__('Name'))
-                                            ->required()
-                                            ->maxLength(255),
-
-                                        Forms\Components\FileUpload::make('file_path')
-                                            ->label(__('File'))
-                                            ->directory('product-documents')
-                                            ->required(),
-
-                                        Forms\Components\TextInput::make('sort_order')
-                                            ->label(__('Sort Order'))
-                                            ->numeric()
-                                            ->default(0),
-                                    ])
-                                    ->columns(2)
-                                    ->defaultItems(0)
-                                    ->reorderableWithButtons(),
-                            ]),
-
                         Forms\Components\Tabs\Tab::make(__('SEO'))
                             ->schema([
                                 Forms\Components\TextInput::make('meta_title')

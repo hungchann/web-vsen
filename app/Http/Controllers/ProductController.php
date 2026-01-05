@@ -67,7 +67,7 @@ class ProductController extends Controller
             return [
                 'id' => (string) $product->id,
                 'name' => $product->name,
-                'category' => $product->category->name ?? 'Uncategorized',
+                'category' => $product->category->name ?? __('Uncategorized'),
                 'image' => $product->images->where('is_primary', true)->first()->path ?? $product->images->first()->path ?? '',
                 'description' => $product->short_description ?? $product->description,
             ];

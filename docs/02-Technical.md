@@ -49,7 +49,6 @@ Single VPS (8GB RAM, 4 vCPU)
     ├──► Laravel Application
     ├──► PostgreSQL Database
     ├──► Redis (Cache)
-    ├──► Elasticsearch (Search)
     └──► File Storage (Local Disk)
 ```
 

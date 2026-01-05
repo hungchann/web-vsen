@@ -16,8 +16,7 @@ export default function Hero() {
           {__('Intelligent Healthcare for a :highlight', { highlight: '' })}<span className="text-blue-400">{__('Sustainable World')}</span>
         </h1>
         <p className="text-lg md:text-xl text-gray-200 max-w-xl mb-8">
-          VSEN Medical is an independent medtech company that builds a world that works. 
-          We are focused on personalized, connected healthcare solutions.
+          {__('VSEN Medical is an independent medtech company that builds a world that works. We are focused on personalized, connected healthcare solutions.')}
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <Link href="/products" className="bg-ge-blue text-white px-8 py-4 rounded font-bold text-center hover:bg-blue-800 transition-colors uppercase tracking-widest text-sm">
