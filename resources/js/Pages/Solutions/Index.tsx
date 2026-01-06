@@ -51,16 +51,16 @@ export default function Index() {
               <div key={solution.id} className={`flex flex-col lg:flex-row gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                 <div className="flex-1 w-full">
                   <div className="rounded-2xl overflow-hidden shadow-2xl">
-                    <img src={solution.image} alt={solution.title} className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" />
+                    <img src={solution.image} alt={__(solution.title)} className="w-full h-[400px] object-cover hover:scale-105 transition-transform duration-700" />
                   </div>
                 </div>
                 <div className="flex-1 space-y-6">
                   <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center shadow-sm mb-6">
                     {getIcon(solution.title)}
                   </div>
-                  <h2 className="text-3xl font-bold text-gray-900">{solution.title}</h2>
+                  <h2 className="text-3xl font-bold text-gray-900">{__(solution.title)}</h2>
                   <p className="text-lg text-gray-600 leading-relaxed">
-                    {solution.summary}
+                    {__(solution.summary)}
                   </p>
                   <p className="text-gray-500">
                     {__('Our solutions bring together advanced imaging, data analytics, and AI to help clinicians detect disease earlier, diagnose with greater precision, and treat more effectively.', { title: solution.title.toLowerCase() })}

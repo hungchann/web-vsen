@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { useForm } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
+import { useTranslate } from '@/helpers';
 
 interface Props {
   isOpen: boolean;
@@ -10,6 +11,9 @@ interface Props {
 }
 
 export default function QuoteModal({ isOpen, closeModal, productId, productName }: Props) {
+  const { __ } = useTranslate();
+  const { flash } = usePage().props as any;
+  const [showSuccess, setShowSuccess] = useState(false);
   const { data, setData, post, processing, reset, errors } = useForm({
     product_id: productId || '',
     name: '',
@@ -24,9 +28,13 @@ export default function QuoteModal({ isOpen, closeModal, productId, productName 
     e.preventDefault();
     post('/quote-request', {
       onSuccess: () => {
-        closeModal();
         reset();
-        alert('Request sent successfully!');
+        setShowSuccess(true);
+        // Auto close modal after 2 seconds
+        setTimeout(() => {
+          closeModal();
+          setShowSuccess(false);
+        }, 2000);
       },
     });
   };
@@ -62,13 +70,23 @@ export default function QuoteModal({ isOpen, closeModal, productId, productName 
                   as="h3"
                   className="text-lg font-bold leading-6 text-gray-900 mb-4"
                 >
-                  Request a Quote
-                  {productName && <span className="block text-sm text-ge-blue font-normal mt-1">for {productName}</span>}
+                  {__('Request Quote')}
+                  {productName && <span className="block text-sm text-ge-blue font-normal mt-1">{__('for')} {productName}</span>}
                 </Dialog.Title>
+
+                {/* Success Message */}
+                {showSuccess && (
+                  <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3 flex items-center">
+                    <svg className="w-5 h-5 text-green-600 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-green-800 text-sm font-medium">{flash?.success || __('Your quote request has been sent successfully! We will contact you shortly.')}</p>
+                  </div>
+                )}
                 
                 <form onSubmit={submit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Name *</label>
+                    <label className="block text-sm font-medium text-gray-700">{__('Full Name')} *</label>
                     <input
                       type="text"
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-ge-blue focus:ring-ge-blue sm:text-sm"
@@ -81,7 +99,7 @@ export default function QuoteModal({ isOpen, closeModal, productId, productName 
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Email *</label>
+                      <label className="block text-sm font-medium text-gray-700">{__('Email Address')} *</label>
                       <input
                         type="email"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-ge-blue focus:ring-ge-blue sm:text-sm"
@@ -92,7 +110,7 @@ export default function QuoteModal({ isOpen, closeModal, productId, productName 
                       {errors.email && <div className="text-red-500 text-xs mt-1">{errors.email}</div>}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">Phone *</label>
+                      <label className="block text-sm font-medium text-gray-700">{__('Phone')} *</label>
                       <input
                         type="text"
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-ge-blue focus:ring-ge-blue sm:text-sm"
@@ -105,7 +123,7 @@ export default function QuoteModal({ isOpen, closeModal, productId, productName 
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Company</label>
+                    <label className="block text-sm font-medium text-gray-700">{__('Company')}</label>
                     <input
                       type="text"
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-ge-blue focus:ring-ge-blue sm:text-sm"
@@ -116,7 +134,7 @@ export default function QuoteModal({ isOpen, closeModal, productId, productName 
 
                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                         <label className="block text-sm font-medium text-gray-700">Quantity</label>
+                         <label className="block text-sm font-medium text-gray-700">{__('Quantity')}</label>
                          <input
                             type="number"
                             min="1"
@@ -128,7 +146,7 @@ export default function QuoteModal({ isOpen, closeModal, productId, productName 
                    </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Message</label>
+                    <label className="block text-sm font-medium text-gray-700">{__('Message')}</label>
                     <textarea
                       className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-ge-blue focus:ring-ge-blue sm:text-sm"
                       rows={3}
@@ -143,14 +161,14 @@ export default function QuoteModal({ isOpen, closeModal, productId, productName 
                       className="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
                       onClick={closeModal}
                     >
-                      Cancel
+                      {__('Cancel')}
                     </button>
                     <button
                       type="submit"
                       disabled={processing}
                       className="inline-flex justify-center rounded-md border border-transparent bg-ge-blue px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     >
-                      {processing ? 'Sending...' : 'Send Request'}
+                      {processing ? __('Processing...') : __('Send Request')}
                     </button>
                   </div>
                 </form>

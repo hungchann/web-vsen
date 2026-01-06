@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -15,6 +16,7 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/solutions', [PageController::class, 'solutions'])->name('solutions.index');
 Route::get('/education', [PageController::class, 'education'])->name('education.index');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact.index');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/services', [PageController::class, 'services'])->name('services.index');
 Route::get('/services/{slug}', [PageController::class, 'serviceShow'])->name('services.show');

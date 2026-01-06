@@ -1,5 +1,6 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Link } from '@inertiajs/react';
+import { useTranslate } from '@/helpers';
 
 interface Article {
     id: number;
@@ -19,14 +20,16 @@ interface Props {
 }
 
 export default function Index({ articles }: Props) {
+  const { __ } = useTranslate();
+
   return (
-    <MainLayout title="Newsroom">
+    <MainLayout title={__('Newsroom')}>
       <div className="bg-white">
         <div className="bg-gray-50 py-16 border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">Newsroom</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">{__('Newsroom')}</h1>
             <p className="text-lg text-gray-600 max-w-2xl">
-              Latest updates, press releases, and insights from VSEN Medical.
+              {__('Latest updates, press releases, and insights from VSEN Medical.')}
             </p>
           </div>
         </div>
@@ -48,7 +51,7 @@ export default function Index({ articles }: Props) {
                      />
                    ) : (
                      <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
-                       No Image
+                       {__('No Image')}
                      </div>
                    )}
                 </div>
@@ -60,7 +63,7 @@ export default function Index({ articles }: Props) {
                   <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-ge-blue transition-colors line-clamp-2">{article.title}</h3>
                   <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed flex-grow">{article.excerpt}</p>
                   <div className="mt-auto pt-4 flex items-center text-ge-blue font-bold text-xs uppercase tracking-widest">
-                    Read More
+                    {__('Read More')}
                     <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>

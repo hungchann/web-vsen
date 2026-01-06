@@ -32,6 +32,6 @@ class QuoteRequestController extends Controller
             'status' => 'new',
         ]);
 
-        return back()->with('success', 'Your quote request has been sent successfully! We will contact you shortly.');
+        return redirect()->back()->with('success', __('Your quote request has been sent successfully! We will contact you shortly.'));
     }
 }

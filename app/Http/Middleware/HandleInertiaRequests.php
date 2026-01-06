@@ -27,6 +27,10 @@ class HandleInertiaRequests extends Middleware
                 'name' => $c->name,
                 'slug' => $c->slug
             ]),
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'error' => $request->session()->get('error'),
+            ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

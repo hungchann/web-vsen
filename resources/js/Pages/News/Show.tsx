@@ -1,5 +1,6 @@
 import MainLayout from '@/Layouts/MainLayout';
 import { Link } from '@inertiajs/react';
+import { useTranslate } from '@/helpers';
 
 interface Article {
     id: number;
@@ -15,6 +16,8 @@ interface Props {
 }
 
 export default function Show({ article }: Props) {
+  const { __ } = useTranslate();
+
   return (
     <MainLayout title={article.title}>
       <div className="bg-white">
@@ -48,7 +51,7 @@ export default function Show({ article }: Props) {
                   <svg className="w-4 h-4 mr-2 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                  Back to Newsroom
+                  {__('Back to Newsroom')}
                </Link>
             </div>
          </div>

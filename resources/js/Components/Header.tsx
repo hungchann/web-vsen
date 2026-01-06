@@ -10,6 +10,7 @@ export default function Header() {
   const { locale, categories } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -24,8 +25,8 @@ export default function Header() {
       {/* Top Bar: Search & Language - Gray Background */}
       <div className="bg-gray-100 border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex justify-end items-center gap-6">
-            {/* Search */}
-            <div className="relative">
+            {/* Search - Hidden on mobile */}
+            <div className="relative hidden md:block">
                 <input 
                     type="text" 
                     placeholder={__('Search...')}
@@ -70,7 +71,7 @@ export default function Header() {
                     </Link>
                 </div>
 
-                {/* Navigation Links */}
+                {/* Navigation Links - Desktop */}
                 <nav className="hidden lg:flex items-center space-x-1">
                     {/* Products Dropdown */}
                     <div className="group relative">
@@ -134,11 +135,150 @@ export default function Header() {
                     </Link>
                 </nav>
 
-                {/* Right CTA */}
-                <div className="flex items-center">
+                {/* Right CTA & Mobile Menu Button */}
+                <div className="flex items-center gap-4">
+                    {/* Contact Button - Hidden on mobile, shown in mobile menu */}
                     <Link 
                         href="/contact"
-                        className="bg-ge-blue text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-blue-800 transition-all shadow-sm hover:shadow-md"
+                        className="hidden lg:block bg-ge-blue text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-blue-800 transition-all shadow-sm hover:shadow-md"
+                    >
+                        {__('Contact Us')}
+                    </Link>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        className="lg:hidden p-2 rounded-md text-gray-700 hover:text-ge-blue hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-ge-blue focus:ring-offset-2"
+                        aria-label="Toggle menu"
+                        aria-expanded={isMobileMenuOpen}
+                    >
+                        {isMobileMenuOpen ? (
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        ) : (
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        )}
+                    </button>
+                </div>
+            </div>
+
+            {/* Mobile Menu Dropdown */}
+            <div className={`lg:hidden border-t border-gray-200 bg-white transition-all duration-300 ease-in-out ${
+                isMobileMenuOpen 
+                    ? 'max-h-[calc(100vh-140px)] opacity-100 overflow-y-auto overscroll-contain' 
+                    : 'max-h-0 opacity-0 overflow-hidden'
+            }`}
+            style={isMobileMenuOpen ? { 
+                WebkitOverflowScrolling: 'touch',
+                scrollBehavior: 'smooth'
+            } : {}}
+            >
+                <div className="px-4 py-4 space-y-1 pb-6 min-h-full">
+                    {/* Mobile Search */}
+                    <div className="relative mb-4">
+                        <input 
+                            type="text" 
+                            placeholder={__('Search...')}
+                            className="w-full bg-gray-50 pl-10 pr-4 py-2.5 border border-gray-300 rounded-full text-sm focus:outline-none focus:border-ge-blue focus:ring-1 focus:ring-ge-blue transition-all"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={handleSearch}
+                        />
+                        <svg className="w-4 h-4 text-gray-400 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+
+                    {/* Products with Categories */}
+                    <div className="space-y-1">
+                        <Link 
+                            href="/products"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className={`block px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors ${
+                                usePage().url.startsWith('/products') 
+                                    ? 'text-ge-blue bg-blue-50' 
+                                    : 'text-gray-700 hover:text-ge-blue hover:bg-gray-50'
+                            }`}
+                        >
+                            {__('Products')}
+                        </Link>
+                        {categories && categories.length > 0 && (
+                            <div className="pl-4 space-y-1 border-l-2 border-gray-100 ml-4">
+                                <Link 
+                                    href="/products"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="block px-4 py-2 text-sm text-ge-blue font-semibold hover:bg-gray-50 rounded-md"
+                                >
+                                    {__('All Products')}
+                                </Link>
+                                {categories.map((category) => (
+                                    <Link 
+                                        key={category.slug}
+                                        href={`/products?category=${encodeURIComponent(category.name)}`}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="block px-4 py-2 text-sm text-gray-600 hover:text-ge-blue hover:bg-gray-50 rounded-md transition-colors"
+                                    >
+                                        {category.name}
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Other Navigation Links */}
+                    <Link 
+                        href="/services"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`block px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors ${
+                            usePage().url.startsWith('/services') 
+                                ? 'text-ge-blue bg-blue-50' 
+                                : 'text-gray-700 hover:text-ge-blue hover:bg-gray-50'
+                        }`}
+                    >
+                        {__('Services')}
+                    </Link>
+                    <Link 
+                        href="/solutions"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`block px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors ${
+                            usePage().url.startsWith('/solutions') 
+                                ? 'text-ge-blue bg-blue-50' 
+                                : 'text-gray-700 hover:text-ge-blue hover:bg-gray-50'
+                        }`}
+                    >
+                        {__('Solutions')}
+                    </Link>
+                    <Link 
+                        href="/education"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`block px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors ${
+                            usePage().url.startsWith('/education') 
+                                ? 'text-ge-blue bg-blue-50' 
+                                : 'text-gray-700 hover:text-ge-blue hover:bg-gray-50'
+                        }`}
+                    >
+                        {__('Education')}
+                    </Link>
+                    <Link 
+                        href="/insights/news"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`block px-4 py-3 rounded-md text-sm font-bold uppercase tracking-wide transition-colors ${
+                            usePage().url.startsWith('/insights') 
+                                ? 'text-ge-blue bg-blue-50' 
+                                : 'text-gray-700 hover:text-ge-blue hover:bg-gray-50'
+                        }`}
+                    >
+                        {__('Insights')}
+                    </Link>
+
+                    {/* Contact Button for Mobile */}
+                    <Link 
+                        href="/contact"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block mt-4 bg-ge-blue text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-blue-800 transition-all shadow-sm text-center"
                     >
                         {__('Contact Us')}
                     </Link>
